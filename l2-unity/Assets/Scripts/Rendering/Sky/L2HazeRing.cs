@@ -10,12 +10,13 @@ public class L2HazeRing : MonoBehaviour
 {
     const string TexPath = "Data/Clock/WhiteRing";
     const string ShaderName = "L2/Sky/HazeRing";
-    const string MeshName = "L2sky_Cylinder2";
+    const string MeshName = "L2sky_Cylinder2_top80";
     const string MeshObjectName = "L2HazeRingMesh";
 
-    /// Native cylinder: horizon ring Y=0, soft top Y=10, xz radius ~26.05 (RenderDoc EID 1661).
+    /// Native cylinder: horizon ring Y=0, soft top Y=10 (~+21°), xz radius ~26.05.
+    /// Soft band is 20% shorter than native (40% cut, then +20% back).
     public const float MeshHorizonY = 0f;
-    public const float MeshTopY = 10f;
+    public const float MeshTopY = 8f;
     public const float MeshRadius = 26.0515f;
 
     /// <summary>World Y above camera of the WhiteRing horizon after sky projection.</summary>
@@ -24,7 +25,7 @@ public class L2HazeRing : MonoBehaviour
         return 0f;
     }
 
-    /// <summary>World Y above camera of the WhiteRing soft top (~+21°).</summary>
+    /// <summary>World Y above camera of the WhiteRing soft top (~+17°).</summary>
     public static float SoftTopHeight(float skyZ)
     {
         float z = skyZ > 1f ? skyZ : 88f;
@@ -33,6 +34,7 @@ public class L2HazeRing : MonoBehaviour
     }
 
     public static L2HazeRing Instance { get; private set; }
+    public static Color CurrentTint { get; private set; } = L2HazeLut.ColorModifierDefault;
 
     static readonly int HazeColorId = Shader.PropertyToID("_HazeColor");
 
@@ -43,7 +45,7 @@ public class L2HazeRing : MonoBehaviour
     [SerializeField] bool _followCamera = true;
     [Header("Haze")]
     [Tooltip("1 = L2. 0 = off. Does not change the clock.")]
-    [SerializeField] [Range(0f, 1f)] float _opacity = 0.6f;
+    [SerializeField] [Range(0f, 1f)] float _opacity = 1f;
 
     Transform _tf;
     MeshFilter _mf;
@@ -76,6 +78,7 @@ public class L2HazeRing : MonoBehaviour
 
     void ApplyHazeColor(Color tint)
     {
+        CurrentTint = tint;
         if (_mat == null)
         {
             return;
@@ -251,7 +254,7 @@ public class L2HazeRing : MonoBehaviour
             -22.5167f, -25.6050f, -25.6050f, -22.5167f, -16.7125f, -8.8925f, 0f, 8.8925f,
             16.7125f, 22.5167f, 25.6050f
         };
-        float[] ringY = { -100f, 0f, 0f, 10f };
+        float[] ringY = { -100f, 0f, 0f, MeshTopY };
         float[] ringV = { 0.9900f, 0.9878f, 0.9900f, 0.0105f };
 
         const int cols = 19;

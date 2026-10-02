@@ -69,6 +69,7 @@ MonoBehaviour:
   m_Active: 1
   settings:
     enableD3D9Compositor: 1
+    directCameraColor: 1
     renderPassEvent: 550
     effectLayerMask:
       serializedVersion: 2
@@ -85,17 +86,53 @@ MonoBehaviour:
     includeSkyInBoost: 0
     skyBoostStart: 0.3
     skyBoostFull: 0.5
-    encodeLinearToSrgb: 1
-    decodeSrgbToLinear: 1
+    encodeLinearToSrgb: 0
+    decodeSrgbToLinear: 0
     bindCameraDepth: 1
     gameCameraOnly: 1
     debugMode: 0
-    enableSkillPost: 1
+    enableSkillPost: 0
     bloomThreshold: 0.2
     bloomIntensity: 0.95
-    fxGain: 1.4
+    fxGain: 1
+    enableYebisPost: 1
+    yebisContrastMix: 1
+    yebisDebugMode: 0
+    yebisExposure: 0.5
+    yebisMappingFactor0: 18
+    yebisMappingFactor1: 10
+    yebisMappingFactor2: 4
+    yebisMiddleGray: 0.18
+    yebisAdaptationSensitivity: 0.5
+    yebisAdaptationScale: 0.85
+    yebisPrePostLumaScale: 1
+    yebisAdaptedOverride: 0
+    yebisColorGamma: 1.6
+    yebisColorSaturation: 0.95
+    yebisFilmicA: 2.6581414
+    yebisFilmicB: 0.66499311
+    yebisMatrixBias: 0.005
+    yebisGainMin: 0.01
+    yebisGainMax: 8
+    yebisPre3898: 1
+    yebisCombineGain: 4.7551184
+    # Test 2026-09-27. Was 0: every channel used CombineGain 4.7551184.
+    # Now 1: L2Yebis_FirstMatrix, the 3x3 from RenderDoc EID 4833 and the live room/street log.
+    # Set back to 0 to restore the old scalar grade.
+    yebisFirstMatrix: 1
+    yebisSecondMatrix: 1
+    yebisDisplayGamma: 1
+    yebisBloomThreshold: 0.66
+    yebisBloomRemap: 1.25
+    yebisBloomIntensity: 0.18
+    yebisBloomExcludeSkyCloudsSun: 1
+    # Test 2026-09-27. Was off: adapted luma was measured and the grade ignored it.
+    # Now 1: scene scales relative to middle gray 0.18 before the matrix.
+    # Set back to 0 to restore the old fixed grade.
+    yebisUseExposure: 1
   transferShader: {fileID: 4800000, guid: c3d4e5f6789012345678abcdef070201, type: 3}
   postShader: {fileID: 4800000, guid: b8e2c1a0497d4f6e9c3a1d5f8e2b7c04, type: 3}
+  yebisShader: {fileID: 4800000, guid: e7a1b2c3d4e5f6789012345678abcd07, type: 3}
 --- !u!114 &7171716907500193747
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -115,7 +152,7 @@ MonoBehaviour:
     AfterOpaque: 0
     Source: 1
     NormalSamples: 1
-    Intensity: 3
+    Intensity: 2
     DirectLightingStrength: 1
     Radius: 0.035
     Samples: 1

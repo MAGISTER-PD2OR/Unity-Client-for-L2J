@@ -90,6 +90,8 @@ public class DayNightCycle : MonoBehaviour
         if (_useL2ColorLut)
         {
             L2DayNightLut.EnsureLoaded();
+            L2EnvWorldLut.EnsureLoaded();
+            L2ActorLightLut.EnsureLoaded();
         }
 
         if (_useL2Celestial)
@@ -211,6 +213,8 @@ public class DayNightCycle : MonoBehaviour
             if (_useL2ColorLut)
             {
                 L2DayNightLut.EnsureLoaded();
+                L2EnvWorldLut.EnsureLoaded();
+                L2ActorLightLut.EnsureLoaded();
             }
 
             if (_useL2ColorLut && L2DayNightLut.IsReady)
@@ -258,7 +262,11 @@ public class DayNightCycle : MonoBehaviour
 
         _mainLight.color = sample.sun;
 
-        RenderSettings.ambientSkyColor = sample.actorAmbient;
+        // Actor LUT is for pawns. Floor/world use TimeEnv0 TerrainAmbient
+        // (UL2NEnvManager::GetTerrainAmbientColor) as GI — before Yebis.
+        L2EnvWorldLut.PushGlobals(_clock.WorldHours, sample.actorAmbient, sample.sun);
+        L2ActorLightLut.PushGlobals(_clock.WorldHours);
+        L2ActorPointLights.Push();
 
         if (HeightFogGlobal.Instance != null)
         {
@@ -292,12 +300,10 @@ public class DayNightCycle : MonoBehaviour
         if (cam == null)
             return;
 
-        // L2 sky is a color fill (GetSkyBoxColor). Skybox-clear only works if
-        // Camera.RenderSkybox actually writes; otherwise previous frames trail.
-        // SolidColor always clears. The MIT Unity skybox shader still sits on
-        // RenderSettings.skybox for GI / a later cubemap.
+        // Original colour pass clears black. The sky pass then paints the upper
+        // blue vault; the lower black is where haze/ground live.
         cam.clearFlags = CameraClearFlags.SolidColor;
-        cam.backgroundColor = skyColor;
+        cam.backgroundColor = L2FxCompositorRuntime.PreferGpuQueue ? Color.black : skyColor;
     }
 
     private void UpdateSkyColor()

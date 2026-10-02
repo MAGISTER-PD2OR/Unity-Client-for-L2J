@@ -83,6 +83,11 @@ Shader "L2/Sky/CloudMyst"
                 dir = len > 1.0e-8 ? dir / len : float3(0, 1, 0);
                 float skyZ = _SkyParams.x > 1.0 ? _SkyParams.x : (_ProjectionParams.z * 0.88);
                 o.positionCS = TransformWorldToHClip(cam + dir * skyZ);
+#if UNITY_REVERSED_Z
+                o.positionCS.z = 0.0;
+#else
+                o.positionCS.z = o.positionCS.w;
+#endif
                 float2 uv = TRANSFORM_TEX(v.uv, _MainTex);
                 uv.y = 1.0 - uv.y;
                 o.uv0 = uv;

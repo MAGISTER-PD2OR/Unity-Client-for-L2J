@@ -30,6 +30,8 @@ public class WorldClock : MonoBehaviour {
     [SerializeField] private string _timeHour;
     [SerializeField] private float _timeElapsed = 0;
     [SerializeField] private bool _startClock = true;
+    [SerializeField] private bool _holdAtHour = false;
+    [SerializeField] private float _heldHour = 12f;
     [SerializeField] private WorldTimer _worldTimer;
     [SerializeField] private Clock _clock;
 
@@ -46,12 +48,14 @@ public class WorldClock : MonoBehaviour {
 
     bool _persistentDriver;
     static bool _bootstrapping;
+    static bool _loggedHold;
 
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
     static void ResetStatics()
     {
         _instance = null;
         _bootstrapping = false;
+        _loggedHold = false;
     }
 
     /// <summary>
@@ -66,6 +70,7 @@ public class WorldClock : MonoBehaviour {
             _instance.gameObject.SetActive(true);
             _instance._startClock = true;
             _instance._dayDurationMinutes = 2.5f;
+            _instance._holdAtHour = false;
             return _instance;
         }
 
@@ -95,6 +100,7 @@ public class WorldClock : MonoBehaviour {
         driver._persistentDriver = true;
         driver._startClock = true;
         driver._dayDurationMinutes = 2.5f;
+        driver._holdAtHour = false;
         if (existing != null && existing != driver)
         {
             driver._timeElapsed = existing._timeElapsed;
@@ -173,6 +179,23 @@ public class WorldClock : MonoBehaviour {
         if (!_persistentDriver && Application.isPlaying && _instance != null && _instance != this)
         {
             return;
+        }
+
+        if (_holdAtHour)
+        {
+            SetWorldHours(_heldHour);
+            if (Application.isPlaying && !_loggedHold)
+            {
+                _loggedHold = true;
+                Debug.Log("[L2Clock] sun held at " + _heldHour.ToString("0.###") + ":00");
+            }
+            return;
+        }
+
+        if (Application.isPlaying && !_loggedHold)
+        {
+            _loggedHold = true;
+            Debug.Log("[L2Clock] day runs in " + _dayDurationMinutes.ToString("0.###") + " min");
         }
 
         if(_startClock) {

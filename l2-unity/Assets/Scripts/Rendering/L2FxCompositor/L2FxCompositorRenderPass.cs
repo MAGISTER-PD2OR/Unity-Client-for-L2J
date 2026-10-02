@@ -4,8 +4,9 @@ using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
 
 /// <summary>
-/// Encode camera color → R8G8B8A8_UNorm, draw SkillEffect FX with D3D9 blends,
-/// optional skill bloom + RGB Boost, decode back to the Unity camera target.
+/// Draws SkillEffect FX after world transparents. In direct mode the camera
+/// target is already raw UNORM, so effects draw into cameraColor without copies.
+/// The legacy encode/post/decode path remains available as a fallback.
 /// </summary>
 public sealed class L2FxCompositorRenderPass : ScriptableRenderPass
 {
@@ -67,6 +68,9 @@ public sealed class L2FxCompositorRenderPass : ScriptableRenderPass
 
     public override void OnCameraSetup(CommandBuffer cmd, ref RenderingData renderingData)
     {
+        if (_settings != null && _settings.directCameraColor)
+            return;
+
         RenderTextureDescriptor desc = renderingData.cameraData.cameraTargetDescriptor;
         desc.msaaSamples = 1;
         desc.depthBufferBits = 0;
@@ -110,17 +114,25 @@ public sealed class L2FxCompositorRenderPass : ScriptableRenderPass
 
     public override void Execute(ScriptableRenderContext context, ref RenderingData renderingData)
     {
+        if (_settings != null && _settings.directCameraColor)
+        {
+            ExecuteDirect(ref context, ref renderingData);
+            return;
+        }
+
         if (_transferMaterial == null || _l2Color == null)
         {
             L2FxGpuDrawQueue.FlushImmediateFallback();
-            L2NameplateOverlayQueue.FlushImmediateFallback();
+            if (!L2YebisPostRuntime.WillFlushNameplates)
+                L2NameplateOverlayQueue.FlushImmediateFallback();
             return;
         }
 
         if (!ShouldRun(ref renderingData))
         {
             L2FxGpuDrawQueue.FlushImmediateFallback();
-            L2NameplateOverlayQueue.FlushImmediateFallback();
+            if (!L2YebisPostRuntime.WillFlushNameplates)
+                L2NameplateOverlayQueue.FlushImmediateFallback();
             Shader.SetGlobalFloat(D3D9ActiveId, 0f);
             return;
         }
@@ -139,7 +151,53 @@ public sealed class L2FxCompositorRenderPass : ScriptableRenderPass
             else
                 ExecuteLegacyComposite(context, ref renderingData, cmd, cameraColor, cameraDepth);
 
-            DrawNameplatesAfterComposite(cmd, cameraColor);
+            if (!L2YebisPostRuntime.WillFlushNameplates)
+                DrawNameplatesAfterComposite(cmd, cameraColor);
+        }
+
+        context.ExecuteCommandBuffer(cmd);
+        CommandBufferPool.Release(cmd);
+    }
+
+    void ExecuteDirect(
+        ref ScriptableRenderContext context,
+        ref RenderingData renderingData)
+    {
+        if (!ShouldRun(ref renderingData))
+        {
+            L2FxGpuDrawQueue.FlushImmediateFallback();
+            if (!L2YebisPostRuntime.WillFlushNameplates)
+                L2NameplateOverlayQueue.FlushImmediateFallback();
+            Shader.SetGlobalFloat(D3D9ActiveId, 0f);
+            return;
+        }
+
+        RTHandle cameraColor = renderingData.cameraData.renderer.cameraColorTargetHandle;
+        RTHandle cameraDepth = renderingData.cameraData.renderer.cameraDepthTargetHandle;
+        if (cameraColor == null)
+        {
+            L2FxGpuDrawQueue.FlushImmediateFallback();
+            if (!L2YebisPostRuntime.WillFlushNameplates)
+                L2NameplateOverlayQueue.FlushImmediateFallback();
+            return;
+        }
+
+        CommandBuffer cmd = CommandBufferPool.Get("L2 FX Direct UNORM");
+        using (new ProfilingScope(cmd, Sampler))
+        {
+            cmd.SetGlobalFloat(D3D9ActiveId, 1f);
+            cmd.SetGlobalFloat(DebugModeId, _settings.debugMode);
+            cmd.SetGlobalFloat(FxGainId, 1f);
+            DrawSkillFx(
+                context,
+                ref renderingData,
+                cmd,
+                cameraColor,
+                cameraDepth,
+                clearFx: false);
+            if (!L2YebisPostRuntime.WillFlushNameplates)
+                DrawNameplatesAfterComposite(cmd, cameraColor);
+            cmd.SetGlobalFloat(D3D9ActiveId, 0f);
         }
 
         context.ExecuteCommandBuffer(cmd);
@@ -156,10 +214,10 @@ public sealed class L2FxCompositorRenderPass : ScriptableRenderPass
         _transferMaterial.SetFloat("_TransferMode", _settings.encodeLinearToSrgb ? 1f : 0f);
         Blitter.BlitCameraTexture(cmd, cameraColor, _l2Color, _transferMaterial, 0);
 
+        DrawCelestialDiscs(context, ref renderingData, cmd, _l2Color, cameraDepth, "legacy", _l2Color);
         DrawCloudSheets(context, ref renderingData, cmd, _l2Color, cameraDepth);
         DrawHazeRing(context, ref renderingData, cmd, _l2Color, cameraDepth);
         DrawSkillFx(context, ref renderingData, cmd, _l2Color, cameraDepth, clearFx: false);
-        DrawCelestialDiscs(context, ref renderingData, cmd, _l2Color, cameraDepth, "legacy", _l2Color);
         DecodeToCamera(cmd, _l2Color, cameraColor);
     }
 

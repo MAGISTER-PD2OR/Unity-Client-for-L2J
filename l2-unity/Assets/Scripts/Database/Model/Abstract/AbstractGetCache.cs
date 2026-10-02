@@ -412,17 +412,58 @@ public abstract class AbstractGetCache
 
     private void AddMaterial(L2Npc npc)
     {
-        if (npc.allMaterials.Count > 0)
-        {
-            GameObject mesh = npc.baseModel;
-            SkinnedMeshRenderer renderer = mesh.GetComponentInChildren<SkinnedMeshRenderer>();
-            Material[] materials = npc.allMaterials.Values.First();
-            if (renderer != null & materials.Length > 0 )
-            {
-                if (materials[0] != null) renderer.material = materials[0];
+        if (npc.allMaterials.Count == 0 || npc.baseModel == null)
+            return;
 
+        Material[] materials = npc.allMaterials.Values.First();
+        if (materials == null || materials.Length == 0)
+            return;
+
+        SkinnedMeshRenderer[] renderers = npc.baseModel.GetComponentsInChildren<SkinnedMeshRenderer>(true);
+        SkinnedMeshRenderer fallback = null;
+        int fallbackSlots = -1;
+        bool assigned = false;
+        for (int r = 0; r < renderers.Length; r++)
+        {
+            SkinnedMeshRenderer renderer = renderers[r];
+            if (renderer == null)
+                continue;
+            int slotCount = renderer.sharedMaterials != null ? renderer.sharedMaterials.Length : 0;
+            if (slotCount > fallbackSlots)
+            {
+                fallback = renderer;
+                fallbackSlots = slotCount;
             }
+            if (slotCount >= materials.Length && ApplyNpcMaterials(renderer, materials))
+                assigned = true;
         }
+
+        if (!assigned && fallback != null)
+            ApplyNpcMaterials(fallback, materials);
+    }
+
+    static bool ApplyNpcMaterials(SkinnedMeshRenderer renderer, Material[] materials)
+    {
+        Material[] slots = renderer.sharedMaterials;
+        if (slots == null || slots.Length == 0 || materials == null || materials.Length == 0)
+            return false;
+
+        int count = slots.Length < materials.Length ? slots.Length : materials.Length;
+        Material[] next = new Material[slots.Length];
+        bool changed = false;
+        for (int i = 0; i < slots.Length; i++)
+            next[i] = slots[i];
+        for (int i = 0; i < count; i++)
+        {
+            if (materials[i] == null || next[i] == materials[i])
+                continue;
+            next[i] = materials[i];
+            changed = true;
+        }
+
+        if (changed)
+            renderer.sharedMaterials = next;
+        return changed || count > 0;
     }
 
  

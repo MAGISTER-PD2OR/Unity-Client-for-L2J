@@ -1,5 +1,6 @@
 using System.Globalization;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 /// <summary>
 /// L2 ANSun / ANMoon billboards: textures from High Elf RenderDoc, motion/size/color from celestial LUT.
@@ -54,14 +55,23 @@ public class L2CelestialDiscs : MonoBehaviour
     BodyTrack _moonTrack;
     float _nextTrajLog;
 
+    public static L2CelestialDiscs Instance { get; private set; }
+
+    public MeshRenderer SunRenderer => _sunMr;
+
+    public Material SunMaterial => _sunMat;
+
     void OnEnable()
     {
+        Instance = this;
         L2CelestialLut.EnsureLoaded();
         EnsureDiscs();
     }
 
     void OnDisable()
     {
+        if (Instance == this)
+            Instance = null;
         DestroyDisc(ref _sunTf, ref _sunMat);
         DestroyDisc(ref _moonTf, ref _moonMat);
         _sunMr = null;
@@ -374,6 +384,30 @@ public class L2CelestialDiscs : MonoBehaviour
             L2FxCompositorLayers.ApplyL2SkyLayer(go);
         else
             go.layer = 0;
+    }
+
+    public void DrawSunBloomExclude(CommandBuffer cmd)
+    {
+        if (cmd == null || _sunMr == null || !_sunMr.enabled || _sunMat == null)
+            return;
+
+        int pass = _sunMat.FindPass("BloomExclude");
+        if (pass < 0)
+            return;
+
+        cmd.DrawRenderer(_sunMr, _sunMat, 0, pass);
+    }
+
+    public void DrawMoonBloomInclude(CommandBuffer cmd)
+    {
+        if (cmd == null || _moonMr == null || !_moonMr.enabled || _moonMat == null)
+            return;
+
+        int pass = _moonMat.FindPass("BloomInclude");
+        if (pass < 0)
+            return;
+
+        cmd.DrawRenderer(_moonMr, _moonMat, 0, pass);
     }
 
     void LateUpdateApplyLayer()

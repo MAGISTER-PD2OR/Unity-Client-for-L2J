@@ -3,10 +3,25 @@ guid: 29bb320b63839f34cb3ef40c6c9d823e
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: a_guard_MHuman_m00_t00_b00
+    second: {fileID: 2100000, guid: 56d0f420259a70f44a33cd7ca1525139, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: a_guard_MHuman_m00_t00_b01
+    second: {fileID: 2100000, guid: 97e4690429401e0469a07828f49f16fe, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: a_guard_MHuman_m00_t00_h
+    second: {fileID: 2100000, guid: a6afbd678fe541249a705f56e8d1ef43, type: 2}
   materials:
     materialImportMode: 1
-    materialName: 0
+    materialName: 1
     materialSearch: 2
     materialLocation: 0
   animations:

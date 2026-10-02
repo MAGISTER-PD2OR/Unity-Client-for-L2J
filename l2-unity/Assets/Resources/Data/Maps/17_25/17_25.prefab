@@ -146,7 +146,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8641843221623033575}
-  m_Mesh: {fileID: 3517720292181502892, guid: 02fa9e7e8f4592e4ea78d2e5f0ed83cf, type: 3}
+  m_Mesh: {fileID: 4300000, guid: 754de745a23712f448ae402775b55654, type: 2}
 --- !u!23 &8249894529705520047
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -155,8 +155,8 @@ MeshRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8641843221623033575}
   m_Enabled: 1
-  m_CastShadows: 1
-  m_ReceiveShadows: 1
+  m_CastShadows: 0
+  m_ReceiveShadows: 0
   m_DynamicOccludee: 1
   m_StaticShadowCaster: 0
   m_MotionVectors: 1
@@ -167,7 +167,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 16acd298176be9643bc69b7206ce3c16, type: 2}
+  - {fileID: 2100000, guid: e0f417d520926f31d6180bc4a5e73944, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -201,6 +201,7 @@ GameObject:
   - component: {fileID: 6883461384143504344}
   - component: {fileID: 8339697103681270519}
   - component: {fileID: 6279110546634622107}
+  - component: {fileID: 5847392018473629105}
   m_Layer: 3
   m_Name: 17_25
   m_TagString: Untagged
@@ -253,7 +254,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: c6e9f139f06982249852b872944eb1a3, type: 2}
+  - {fileID: 2100000, guid: 2e8cd7efdf44e9a40bbcb49920be2c9e, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -297,3 +298,15 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 4300000, guid: a51f626d4b268834b875a064232c3357, type: 2}
+--- !u!114 &5847392018473629105
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8806581943988824826}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7b4e91c0d2a84f6a8c3e5f1b9d0a2748, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier:

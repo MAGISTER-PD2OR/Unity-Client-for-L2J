@@ -13,6 +13,8 @@ GameObject:
   - component: {fileID: 5337359371871108990}
   - component: {fileID: 5384559007390973682}
   - component: {fileID: 126460254554323744}
+  - component: {fileID: 7148291038475620193}
+  - component: {fileID: 9031557788123456701}
   m_Layer: 18
   m_Name: de_fire
   m_TagString: Untagged
@@ -100,13 +102,13 @@ Light:
   serializedVersion: 11
   m_Type: 2
   m_Color: {r: 0.972549, g: 0.5254902, b: 0.3607843, a: 1}
-  m_Intensity: 1
+  m_Intensity: 0.158
   m_Range: 15
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
   m_CookieSize: 10
   m_Shadows:
-    m_Type: 2
+    m_Type: 0
     m_Resolution: -1
     m_CustomResolution: -1
     m_Strength: 1
@@ -177,3 +179,30 @@ MonoBehaviour:
   m_LightCookieSize: {x: 1, y: 1}
   m_LightCookieOffset: {x: 0, y: 0}
   m_SoftShadowQuality: 0
+--- !u!114 &7148291038475620193
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3458150221017020908}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e7a1b2c3d4e5f6789012345678abcd11, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &9031557788123456701
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3458150221017020908}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c4e8a17b2d9f4a60b8e15c7d90a46f33, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  constantAttenuation: 0.431085169
+  linearAttenuation: 0.021897854
+  radius: 29.04762

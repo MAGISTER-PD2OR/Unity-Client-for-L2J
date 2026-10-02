@@ -6,7 +6,7 @@ using UnityEngine;
 
 /// <summary>
 /// After LineageWeapons FBX import, bake loadable prefabs like the handmade swords:
-/// mesh + URP Lit on the root, Sword_Tip / Sword_Base children. Does not overwrite existing prefabs.
+/// mesh + L2/World/ActorModulate2X on the root, Sword_Tip / Sword_Base children. Does not overwrite existing prefabs.
 /// </summary>
 public class L2WeaponPrefabBuilder : AssetPostprocessor
 {
@@ -232,8 +232,13 @@ public class L2WeaponPrefabBuilder : AssetPostprocessor
         Material template = AssetDatabase.LoadAssetAtPath<Material>(TemplateMat);
         Material mat = template != null
             ? new Material(template)
-            : new Material(Shader.Find("Universal Render Pipeline/Lit"));
+            : new Material(Shader.Find("L2/World/ActorModulate2X"));
         mat.name = texStem;
+        if (template == null)
+        {
+            mat.SetFloat("_Cull", 2f);
+            mat.SetFloat("_AlphaClip", 0f);
+        }
 
         Texture2D tex = AssetDatabase.LoadAssetAtPath<Texture2D>(TexFolder + "/" + texStem + ".png");
         if (tex != null)

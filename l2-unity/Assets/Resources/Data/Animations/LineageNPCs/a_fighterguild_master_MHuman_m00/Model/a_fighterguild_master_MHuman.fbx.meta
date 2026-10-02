@@ -3,10 +3,30 @@ guid: dda307e04212bab4e9dd54d1e1a2913c
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: a_fighterguild_master_MHuman_m00_t00_b00
+    second: {fileID: 2100000, guid: 6eb80d8a1a91d2c4f94233e00b53a535, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: a_fighterguild_master_MHuman_m00_t00_b01
+    second: {fileID: 2100000, guid: adef587a2333d7d408aaf6a468cb3776, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: a_fighterguild_master_MHuman_m00_t00_f
+    second: {fileID: 2100000, guid: 63c7458acdffd0940b3d4761c388eba8, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: a_fighterguild_master_MHuman_m00_t00_h
+    second: {fileID: 2100000, guid: 7ced7fb7afbc1154e93a55056f7e1032, type: 2}
   materials:
     materialImportMode: 1
-    materialName: 0
+    materialName: 1
     materialSearch: 2
     materialLocation: 0
   animations:

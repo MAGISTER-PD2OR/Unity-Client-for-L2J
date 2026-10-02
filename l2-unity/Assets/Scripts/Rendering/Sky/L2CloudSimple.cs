@@ -350,6 +350,29 @@ public class L2CloudSimple : MonoBehaviour
             go.layer = 0;
     }
 
+    public void DrawBloomExclude(CommandBuffer cmd)
+    {
+        DrawChunkExclude(cmd, ref _domeA);
+        DrawChunkExclude(cmd, ref _domeB);
+    }
+
+    static void DrawChunkExclude(CommandBuffer cmd, ref CloudChunk chunk)
+    {
+        if (cmd == null || chunk.mr == null || !chunk.mr.enabled || chunk.mats == null)
+            return;
+
+        for (int i = 0; i < chunk.mats.Length; i++)
+        {
+            Material mat = chunk.mats[i];
+            if (mat == null)
+                continue;
+            int pass = mat.FindPass("BloomExclude");
+            if (pass < 0)
+                continue;
+            cmd.DrawRenderer(chunk.mr, mat, i, pass);
+        }
+    }
+
     float ResolveSkyDistance(Camera cam)
     {
         float far = cam != null ? cam.farClipPlane : 500f;

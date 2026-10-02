@@ -45,9 +45,6 @@ Shader "L2/Sky/StarField"
             TEXTURE2D(_MainTex);
             SAMPLER(sampler_MainTex);
 
-            float _FxGain;
-            float _L2FxD3D9CompositorActive;
-
             CBUFFER_START(UnityPerMaterial)
                 float4 _MainTex_ST;
                 float4 _StarColor;
@@ -77,6 +74,11 @@ Shader "L2/Sky/StarField"
                 float skyZ = _SkyDistance > 1.0 ? _SkyDistance : (_ProjectionParams.z * 0.88);
                 float3 sky = cam + dir * skyZ;
                 o.positionCS = TransformWorldToHClip(sky);
+#if UNITY_REVERSED_Z
+                o.positionCS.z = 0.0;
+#else
+                o.positionCS.z = o.positionCS.w;
+#endif
                 o.uv = TRANSFORM_TEX(v.uv, _MainTex);
                 return o;
             }
@@ -84,10 +86,7 @@ Shader "L2/Sky/StarField"
             float4 frag(Varyings i) : SV_Target
             {
                 float4 tex = SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, i.uv);
-                float4 c = tex * _StarColor;
-                if (_L2FxD3D9CompositorActive > 0.5)
-                    c.rgb *= _FxGain;
-                return c;
+                return tex * _StarColor;
             }
             ENDHLSL
         }

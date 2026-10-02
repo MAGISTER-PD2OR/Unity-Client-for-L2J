@@ -843,7 +843,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _animator: {fileID: 0}
   _resetStateOnReceive: 1
-  _atk01ClipLength: 1000
   _spAtk01ClipLength: 1000
 --- !u!95 &5979145637729925236
 Animator:
@@ -892,7 +891,6 @@ CharacterController:
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
   m_Center: {x: 0, y: 0.6, z: 0}
-
 --- !u!114 &1439208792558858034
 MonoBehaviour:
   m_ObjectHideFlags: 0

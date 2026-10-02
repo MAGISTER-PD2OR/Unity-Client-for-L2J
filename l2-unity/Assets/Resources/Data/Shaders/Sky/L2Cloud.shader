@@ -51,6 +51,11 @@ Shader "L2/Sky/Cloud"
         float3 world = cam + offset * (skyZ / nativeR);
         world.y += _SkyParams.z;
         o.positionCS = TransformWorldToHClip(world);
+#if UNITY_REVERSED_Z
+        o.positionCS.z = 0.0;
+#else
+        o.positionCS.z = o.positionCS.w;
+#endif
         o.uv = TRANSFORM_TEX(v.uv, _MainTex);
         o.color0 = v.color;
         return o;
@@ -63,6 +68,14 @@ Shader "L2/Sky/Cloud"
         float4 color0 = i.color0;
         float4 textureFactor = _TextureFactor;
         return tex * color0 * textureFactor;
+    }
+
+    float4 fragExclude(Varyings i) : SV_Target
+    {
+        float4 tex = _MainTex.Sample(sampler_MainTex, i.uv);
+        float a = (tex * i.color0 * _TextureFactor).a;
+        clip(a - 0.02);
+        return float4(1, 1, 1, 1);
     }
     ENDHLSL
 
@@ -103,6 +116,21 @@ Shader "L2/Sky/Cloud"
             HLSLPROGRAM
             #pragma vertex vert
             #pragma fragment frag
+            ENDHLSL
+        }
+
+        Pass
+        {
+            Name "BloomExclude"
+            Tags { "LightMode" = "L2BloomExclude" }
+            Blend Off
+            ZWrite Off
+            ZTest LEqual
+            Cull Off
+            ColorMask RGB
+            HLSLPROGRAM
+            #pragma vertex vert
+            #pragma fragment fragExclude
             ENDHLSL
         }
     }

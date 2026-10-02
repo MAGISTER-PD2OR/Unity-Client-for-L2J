@@ -9,6 +9,7 @@ Shader "Hidden/L2/FxPostBloomContrast"
         _KawaseOffset ("Kawase Offset", Float) = 1
         _TransferMode ("Transfer Mode", Float) = 0
     }
+    // LEGACY skill-only post. Global HE look is Hidden/L2/YebisPost.
     // UNORM skill post. No look-curve pow/gamma.
     // Working recipe: R8G8B8A8_UNorm sRGB=off, D3D9 blends on the scene,
     // RGB Boost on the skill delta, bloom from max(color-scene, 0).

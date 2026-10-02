@@ -4,7 +4,7 @@
 // RenderDoc high_elf_soon_clouds_6_00 EID 1661 SPIR-V:
 //   out = tex2D(WhiteRing, Texcoord0.xy) * Color0
 //   blend SrcAlpha / InvSrcAlpha / Add. No blur, no look curve.
-// Soft top of the wash is WhiteRing alpha (mesh V 0.99 at horizon → 0.01 at +21°).
+// Soft top of the wash is WhiteRing alpha (mesh V 0.99 at horizon → 0.01 at +17°).
 //
 // Drawn in the D3D9 compositor UNORM buffer (layer L2Haze) after the scene copy.
 // Skill post applies the same fxGain (1.4) + bloom as SkillEffect / sun-moon.
@@ -80,6 +80,11 @@ Shader "L2/Sky/HazeRing"
                 float skyZ = _SkyDistance > 1.0 ? _SkyDistance : (_ProjectionParams.z * 0.88);
                 float3 sky = cam + dir * skyZ;
                 o.positionCS = TransformWorldToHClip(sky);
+#if UNITY_REVERSED_Z
+                o.positionCS.z = 0.0;
+#else
+                o.positionCS.z = o.positionCS.w;
+#endif
                 o.uv = TRANSFORM_TEX(v.uv, _MainTex);
                 return o;
             }

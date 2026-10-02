@@ -8,7 +8,7 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: 16_25_Mat
-  m_Shader: {fileID: -6465566751694194690, guid: 5e242b9ad3ac8604bbaf7906e6e97455, type: 3}
+  m_Shader: {fileID: 4800000, guid: b7e14c90a2d84f1e9c6a5d3b8e0f1724, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
@@ -25,23 +25,23 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - _Layer_0:
-        m_Texture: {fileID: 2800000, guid: 08e6d04cc5a803a409eb908926184548, type: 3}
+        m_Texture: {fileID: 2800000, guid: 7a3ce958a5f4c684b84546ce985b5774, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Layer_1:
-        m_Texture: {fileID: 2800000, guid: aa0f98c9a49caec4796fb65675faea80, type: 3}
+        m_Texture: {fileID: 2800000, guid: 74eea87efbcf2d347a0f62b7f1728613, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Layer_2:
-        m_Texture: {fileID: 2800000, guid: 1013a1df440dad9439b07e2fa290b415, type: 3}
+        m_Texture: {fileID: 2800000, guid: 2ada2bdf5604cb84e8762bf8ee95a8f0, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Layer_3:
-        m_Texture: {fileID: 2800000, guid: 09cc41c8c82f00f44a82a5a662d90c94, type: 3}
+        m_Texture: {fileID: 2800000, guid: eb5ffddbcabbb0d41b271d1f01cf1488, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Layer_4:
-        m_Texture: {fileID: 2800000, guid: aa4f40a1af3e7ef4fb4d01848e66d1ca, type: 3}
+        m_Texture: {fileID: 2800000, guid: 0326faa86a45af74b9a2c95187b524b3, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Layer_5:
@@ -49,19 +49,55 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Layer_6:
-        m_Texture: {fileID: 2800000, guid: 111be74d307e42c4495875a668593118, type: 3}
+        m_Texture: {fileID: 2800000, guid: aada6685cfdcf99449bbe705a1d5a411, type: 3}
         m_Scale: {x: 1.5, y: 1.5}
         m_Offset: {x: 0, y: 0}
     - _Layer_7:
-        m_Texture: {fileID: 2800000, guid: 83899da1dfe18ab42a274dbe1135ce4a, type: 3}
+        m_Texture: {fileID: 2800000, guid: cb8624db7bd98d84d8a7166a0e6e4011, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Layer_8:
-        m_Texture: {fileID: 2800000, guid: c9d2be76e8ba3db4baa9e253c1356282, type: 3}
+        m_Texture: {fileID: 2800000, guid: 9a98ad6968096fe468af19173ad7d527, type: 3}
         m_Scale: {x: 2, y: 2}
         m_Offset: {x: 0, y: 0}
     - _Layer_9:
         m_Texture: {fileID: 2800000, guid: e7e2f52296c002344a3aefc4ae6f03c8, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _LayerMask_1:
+        m_Texture: {fileID: 2800000, guid: 291c055f11bc35f47922837fa87a064b, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _LayerMask_2:
+        m_Texture: {fileID: 2800000, guid: 3d92c0146fe4cdb4383061f8b759eddc, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _LayerMask_3:
+        m_Texture: {fileID: 2800000, guid: dc32b8017ad7a1b4ba4be988903d77d1, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _LayerMask_4:
+        m_Texture: {fileID: 2800000, guid: 77e5c3fc9718c834e92575054ce7d4e4, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _LayerMask_5:
+        m_Texture: {fileID: 2800000, guid: b0e9c1bdd6387cc428d5528e816511c4, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _LayerMask_6:
+        m_Texture: {fileID: 2800000, guid: d4b8bc9756ce20a4ba2e719c4bfce3b7, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _LayerMask_7:
+        m_Texture: {fileID: 2800000, guid: 89dccbf1e2e91dd44a77c2a03758e790, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _LayerMask_8:
+        m_Texture: {fileID: 2800000, guid: 48c6df41ef81be041a5f9f71144963fb, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _LayerMask_9:
+        m_Texture: {fileID: 2800000, guid: be1ad675515ac5d48a5b362600ea271d, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Splatmaps:
@@ -93,8 +129,10 @@ Material:
     - _Layer_5_Enabled: 1
     - _Layer_6_Enabled: 1
     - _Layer_7_Enabled: 1
-    - _Layer_8_Enabled: 1
+    - _Layer_8_Enabled: 0
     - _Layer_9_Enabled: 1
+    - _Cull: 2
+    - _L2WorldUvPerTileUu: 128
     - _QueueControl: 0
     - _QueueOffset: 0
     - _RipplePower: 3.5
@@ -103,6 +141,16 @@ Material:
     m_Colors:
     - _CausticColor: {r: 7.906699, g: 7.906699, b: 4.181029, a: 0}
     - _RippleSpeed: {r: 0.1, g: 0.1, b: 0.05, a: 0.05}
+    - _Layer_0_UV: {r: 1, g: 1, b: 0.0625, a: -0.109375}
+    - _Layer_1_UV: {r: 1, g: 1, b: 0.0625, a: -0.109375}
+    - _Layer_2_UV: {r: 1, g: 1, b: 0.0625, a: -0.109375}
+    - _Layer_3_UV: {r: 1, g: 1, b: 0.0625, a: -0.109375}
+    - _Layer_4_UV: {r: 1, g: 1, b: 0.0625, a: -0.109375}
+    - _Layer_5_UV: {r: 1, g: 1, b: 0.0625, a: -0.109375}
+    - _Layer_6_UV: {r: 1.5, g: 1.5, b: 0.041667, a: -0.072917}
+    - _Layer_7_UV: {r: 1, g: 1, b: 0.0625, a: -0.109375}
+    - _Layer_8_UV: {r: 2, g: 2, b: 0.03125, a: -0.054688}
+    - _Layer_9_UV: {r: 1, g: 1, b: 0.0625, a: -0.109375}
     - _UVSize: {r: 180, g: 180, b: 0, a: 0}
     - _UnderwaterColor: {r: 0.25098038, g: 0.5019608, b: 1, a: 0}
   m_BuildTextureStacks: []

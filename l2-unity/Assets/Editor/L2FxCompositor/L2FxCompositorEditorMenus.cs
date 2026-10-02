@@ -16,6 +16,8 @@ public static class L2FxCompositorEditorMenus
         "Assets/Resources/Data/Shaders/Skills/Common/Decompile_Common/L2FxColorTransfer.shader";
     const string PostShaderPath =
         "Assets/Resources/Data/Shaders/Skills/Common/Decompile_Common/L2FxPostBloomContrast.shader";
+    const string YebisShaderPath =
+        "Assets/Resources/Data/Shaders/Post/L2YebisPost.shader";
 
     // Everything except SkillEffect (18), L2Sky (20), L2Haze (21), L2Clouds (22).
     const uint TransparentMaskWithoutCompositorLayers =
@@ -214,6 +216,7 @@ public static class L2FxCompositorEditorMenus
             feature.settings = new L2FxCompositorSettings
             {
                 enableD3D9Compositor = true,
+                directCameraColor = true,
                 renderPassEvent = RenderPassEvent.BeforeRenderingPostProcessing,
                 effectLayerMask = 1 << L2FxCompositorLayers.SkillEffect,
                 celestialLayerMask = 1 << L2FxCompositorLayers.L2Sky,
@@ -222,11 +225,13 @@ public static class L2FxCompositorEditorMenus
                 includeSkyInBoost = false,
                 skyBoostStart = 0.30f,
                 skyBoostFull = 0.50f,
-                encodeLinearToSrgb = true,
-                decodeSrgbToLinear = true,
+                encodeLinearToSrgb = false,
+                decodeSrgbToLinear = false,
                 bindCameraDepth = true,
                 gameCameraOnly = true,
-                enableSkillPost = true
+                enableSkillPost = false,
+                enableYebisPost = true,
+                fxGain = 1f
             };
 
             AssetDatabase.AddObjectToAsset(feature, renderer);
@@ -259,6 +264,9 @@ public static class L2FxCompositorEditorMenus
         Shader post = AssetDatabase.LoadAssetAtPath<Shader>(PostShaderPath);
         if (post == null)
             post = Shader.Find("Hidden/L2/FxPostBloomContrast");
+        Shader yebis = AssetDatabase.LoadAssetAtPath<Shader>(YebisShaderPath);
+        if (yebis == null)
+            yebis = Shader.Find("Hidden/L2/YebisPost");
 
         SerializedObject featureSo = new SerializedObject(feature);
         SerializedProperty shaderProp = featureSo.FindProperty("transferShader");
@@ -267,6 +275,9 @@ public static class L2FxCompositorEditorMenus
         SerializedProperty postProp = featureSo.FindProperty("postShader");
         if (postProp != null)
             postProp.objectReferenceValue = post;
+        SerializedProperty yebisProp = featureSo.FindProperty("yebisShader");
+        if (yebisProp != null)
+            yebisProp.objectReferenceValue = yebis;
         featureSo.ApplyModifiedPropertiesWithoutUndo();
     }
 
